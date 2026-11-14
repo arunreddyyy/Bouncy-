@@ -24,7 +24,7 @@ const FADE = 1000;
 let ci = 0;
 
 function addBall(x, y, vx, vy){
-    ci = (ci + Math.floor(Math.eandom() * 3)) % COLORS.length;
+    ci = (ci + Math.floor(Math.random() * 3)) % COLORS.length;
     balls.push({ x, y, vx,vy, r: 12 + Math.random() * 14, c: COLORS[ci], born: performance.now()
     });
     if(balls.length > MAX) 
@@ -52,6 +52,54 @@ function step() {
         b.vx *= 0.999;
         b.x += b.vx; 
         b.y += b.vy;
-        if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -BOUNCE; b.vx *= 0.99;}
+        if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -BOUNCE; b.vx *= 0.99; if (Math.abs(b.vy) < 1.2) b.vy = 0; }
+        if (b.y - b.r < 0) { b.y = b.r; b.vy *= -BOUNCE; }
+        if (b.x + b.r > W) { b.x = W - b.r; b.vx *= -BOUNCE; }
+        if (b.x - b.r < 0) { b.x = b.r; b.vx *= -BOUNCE; }
+    }
+    for (let i = 0; i < balls.length; i++) for (let j = i + 1; j < balls.length; j++) {
+        const a = balls[i], b = balls[j];
+        const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), m = a.r + b.r;
+        if (d < m && d > 0) {
+            const nx = dx / d, ny = dy / d, ov = (m - d) /2;
+            a.x -= nx * ov; a.y -= ny * ov; b.x += nx * ov; b.y += ny * ov;
+            const rv = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+            if (rv < 0) {
+                const k = -(1 + BOUNCE) * rv / 2;
+                a.vx -= k * nx; a.vy -= k * ny; b.vx += k * nx; b.vy += k * ny;
+            }
+        }
     }
 }
+    
+    function frame(now) {
+        g.clearRect(0, 0, W, H);
+        step();
+        for (let i = balls.length - 1; i >= 0; i--) {
+            const b = balls[i], age = now - b.born;
+            if (age > LIFE + FADE) { balls.splice(i, 1); continue; }
+            const f = age > LIFE ? 1 - (age - LIFE) / FADE : 1;
+
+            const r = b.r * (0.6 + 0.4 * f);
+            g.globalAlpha = f;
+            const gr = g.createRadialGradient(b.x - r * 0.35, b.y - r * 0.35, r * 0.1, b.x, b.y, r);
+            gr.addColorStop(0, 'rgba(255,255,255,.55)');
+            gr.addColorStop(0.35, b.c);
+            gr.addColorStop(1, b.c);
+            g.fillStyle = b.c; g.beginPath(); 
+            g.arc(b.x, b.y,r, 0, 6.283); g.fill();
+            g.fillStyle = gr;  g.beginPath(); 
+            g.arc(b.x, b.y, r, 0, 6.283); g.fill();
+        }
+        g.globalAlpha = 1;
+        if (down && cur) {
+            g.strokeStyle = ' rgba(255,255,255,.5)';
+             g.lineWidth = 2;
+            g.beginPath(); g.moveTo(down.x, down.y);
+             g.lineTo(cur.x, cur.y); g.stroke();
+            g.fillStyle = '#fff'; g.beginPath();
+             g.arc(down.x, down.y, 4, 0, 6.283); g.fill();
+        }
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
