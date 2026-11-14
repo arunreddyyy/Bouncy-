@@ -1,0 +1,27 @@
+Bouncy
+
+It is an interactive build to play in the browser.
+
+Its a black screen with nothing on it. Tap anywhere in the screen to drop the color balls they bounce on the floor and walls and after few seconds the balls will shrink and disappear, so the screen never gets crowded.
+
+You can also drag the balls and throw it anywhere in the screen in any direction 
+
+images
+
+
+
+How to Run
+
+you can clone the git repo 
+
+
+Then open the files and open the html file and open it in browser and run it 
+
+       "OR"
+
+You can run it through the deployed link.
+
+Built it using 
+HTML , CSS and javaScript
+
+I wanted to see how the physics runs in the webs.
