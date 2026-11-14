@@ -6,20 +6,21 @@ Its a black screen with nothing on it. Tap anywhere in the screen to drop the co
 
 You can also drag the balls and throw it anywhere in the screen in any direction 
 
-images
-
-
+images are added in files type
 
 How to Run
 
 you can clone the git repo 
 
+https://github.com/arunreddyyy/Bouncy-.git
 
 Then open the files and open the html file and open it in browser and run it 
 
        "OR"
 
 You can run it through the deployed link.
+
+https://arunreddyyy.github.io/Bouncy-/
 
 Built it using 
 HTML , CSS and javaScript
