@@ -1,28 +1,59 @@
-Bouncy
+Bounce
 
-It is an interactive build to play in the browser.
+A tiny canvas toy where you tap to drop balls and drag to throw them around.
 
-Its a black screen with nothing on it. Tap anywhere in the screen to drop the color balls they bounce on the floor and walls and after few seconds the balls will shrink and disappear, so the screen never gets crowded.
+Description
 
-You can also drag the balls and throw it anywhere in the screen in any direction 
+Bounce is a small physics playground that runs in the browser. The whole screen is one black canvas. Tap anywhere and a ball drops from that spot. Press, drag and let go, and the ball gets thrown in the direction you dragged, with a faster throw the farther you pull. A thin line shows up while you drag so you can see where it's headed.
 
-images are added in files type
+The balls fall under gravity, bounce off all four walls, and knock into each other. Each ball has a random size and one of seven colours, and it fades out and shrinks away after about 8 seconds so the screen never fills up. There's also a cap of 30 balls at once, and when you go over it the oldest one is removed.
 
-How to Run
+I built it with plain HTML, CSS and JavaScript. There are no libraries, no build step and nothing to install. It uses pointer events, so it works the same with a mouse, a finger or a stylus, and the canvas is scaled for high-DPI screens so the balls stay sharp on phones.
 
-you can clone the git repo 
+Screenshots
 
-https://github.com/arunreddyyy/Bouncy-.git
+Bounce screenshot
 
-Then open the files and open the html file and open it in browser and run it 
 
-       "OR"
 
-You can run it through the deployed link.
+Getting Started
+Dependencies
 
-https://arunreddyyy.github.io/Bouncy-/
+Any modern browser (Chrome, Firefox, Safari, Edge)
+That's it. No Node, no npm, no packages.
+Installing
+Download or clone the repo:
 
-Built it using 
-HTML , CSS and javaScript
 
-I wanted to see how the physics runs in the webs.
+
+Make sure these three files stay in the same folder:
+index.html
+script.js
+style.css
+
+Executing program
+Open index.html in your browser. Double-clicking it is enough.
+
+Tap or click to drop a ball.
+
+Click and drag, then release, to throw one.
+
+If you'd rather run it from a local server:
+
+python -m http.server 8000
+
+Then go to http://localhost:8000.
+
+Help
+
+The screen is blank. That's expected at first. The canvas starts empty, so tap somewhere to drop a ball. If nothing appears after that, open the browser console (F12) and check that script.js and style.css loaded. Both need to be in the same folder as index.html.
+
+My balls keep disappearing. This is on purpose. Each ball lasts about 7 seconds, then fades out over 1 second. You can change this with the LIFE and FADE values at the top of script.js (they're in milliseconds).
+
+A tap throws the ball instead of dropping it. A press that moves less than 12 pixels counts as a tap. Anything more counts as a drag. If it feels too touchy, raise that number in the pointerup handler.
+
+I want it bouncier, heavier, or crowded. These constants in script.js control the feel:
+
+const MAX = 30;      (max balls on screen)
+const GRAV = 0.35;   (gravity)
+const BOUNCE = 0.84;
